@@ -38,8 +38,8 @@
             const data = await response.text();
             const rows = data.split('\n').map(row => row.split(','));
 
-            const player1Name = rows[1][1];
-            const player2Name = rows[1][2];
+            const player1Name = rows[0][1];
+            const player2Name = rows[0][2];
             const player1Wins = rows[1][3];
             const player2Wins = rows[1][4];
 
