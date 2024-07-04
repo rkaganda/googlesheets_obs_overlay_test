@@ -43,23 +43,23 @@
 
     <script>
         async function fetchData() {
-            const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQOGzJow2wYUh1Yr8tpPLGE8Gopnxc96PkDJUFB71owTtylC4JnSj0aJmvABz43rZZwhaCFFHUBoKAC/pub?gid=15858250&single=true&output=csv');
-            const data = await response.text();
-            const rows = data.split('\n').map(row => row.split(','));
-
-            const player1Name = rows[0][1];
-            const player2Name = rows[0][2];
-            const player1Wins = rows[1][3];
-            const player2Wins = rows[1][4];
-
-            document.getElementById('player1Name').innerText = player1Name;
-            document.getElementById('player2Name').innerText = player2Name;
-            document.getElementById('player1Wins').innerText = `Wins: ${player1Wins}`;
-            document.getElementById('player2Wins').innerText = `Wins: ${player2Wins}`;
-        }
-
-        setInterval(fetchData, 5000);  // Refresh every 5 seconds
-        fetchData();
+        const response = await fetch('https://script.google.com/macros/s/AKfycbyKUxUqX8jBmKdM87hH72H0wfWKuSicieedIYstxKfDDHod-3Oi5ddZUszpi-b21OWTlA/exec');
+        const data = await response.json();
+        const rows = data;
+    
+        const player1Name = rows[0][1];
+        const player2Name = rows[0][2];
+        const player1Wins = rows[0][3];
+        const player2Wins = rows[0][4];
+    
+        document.getElementById('player1Name').innerText = player1Name;
+        document.getElementById('player2Name').innerText = player2Name;
+        document.getElementById('player1Wins').innerText = `Wins: ${player1Wins}`;
+        document.getElementById('player2Wins').innerText = `Wins: ${player2Wins}`;
+    }
+    
+    setInterval(fetchData, 5000);  // Refresh every 5 seconds
+    fetchData();
     </script>
 </body>
 </html>
