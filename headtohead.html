@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, initial-scale=1.0">
+    <title>Head to Head - PFGG</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1920px;
+            height: 1080px;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        .quarter {
+            width: calc((1920px) / 2);
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .top-left {
+            background-color: #ffcccc;
+            flex-direction: column;
+        }
+        .top-right {
+            background-color: #ccffcc;
+            flex-direction: column;
+        }
+        .bottom-left {
+            background-color: #ccccff;
+            flex-direction: column;
+        }
+        .bottom-right {
+            background-color: #ffffcc;
+            flex-direction: column;
+        }
+        .content {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .center-division {
+            position: absolute;
+            width: 300px;
+            height: 100%;
+            left: calc(50% - 150px);
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 1;
+        }
+        .text-top {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .image-bottom {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .bottom-content {
+            display: flex;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .left-line, .right-line {
+            width: 50%;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+            border-bottom: 2px solid black;
+        }
+        .left-line {
+            border-right: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="quarter top-left">
+        <div class="text-top" id="player1Name">Player 1</div>
+        <img src="coaching.png" alt="Top Left Image" class="image-bottom">
+    </div>
+    <div class="quarter top-right">
+        <div class="text-top" id="player2Name">Player 2</div>
+        <img src="coaching.png" alt="Top Right Image" class="image-bottom">
+    </div>
+    <div class="quarter bottom-left">
+        <div class="bottom-content">
+            <div class="left-line">Win-Loss</div>
+            <div class="right-line" id="player1WinLoss">player.winloss</div>
+        </div>
+        <div class="bottom-content">
+            <div class="left-line">Win Rate</div>
+            <div class="right-line" id="player1WinRate">player.winrate</div>
+        </div>
+        <div class="bottom-content">
+            <div class="left-line"># Matches Played</div>
+            <div class="right-line" id="player1Matches">player.matches.total</div>
+        </div>
+    </div>
+    <div class="quarter bottom-right">
+        <div class="bottom-content">
+            <div class="left-line">Win-Loss</div>
+            <div class="right-line" id="player2WinLoss">player.winloss</div>
+        </div>
+        <div class="bottom-content">
+            <div class="left-line">Win Rate</div>
+            <div class="right-line" id="player2WinRate">player.winrate</div>
+        </div>
+        <div class="bottom-content">
+            <div class="left-line"># Matches Played</div>
+            <div class="right-line" id="player2Matches">player.matches.total</div>
+        </div>
+    </div>
+    <div class="center-division">
+        Center Division
+    </div>
+
+    <script>
+        async function fetchData() {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbwXmx7kdtIaafXjbGSpN22v41NXe2ebh1nqohsMibfpSvi3AwJ6zNSMGSRVq-nkJKji/exec');
+            const data = await response.json();
+            console.log(data);
+
+            document.getElementById('player1Name').innerText = data['player_one_name'];
+            document.getElementById('player2Name').innerText = data['player_two_name'];
+            document.getElementById('player1WinLoss').innerText = data['player_one_wins'] + '-' + data['player_one_losses'];
+            document.getElementById('player2WinLoss').innerText = data['player_two_wins'] + '-' + data['player_two_losses'];
+            document.getElementById('player1WinRate').innerText = data['player_one_win_percentage'] + '%';
+            document.getElementById('player2WinRate').innerText = data['player_two_win_percentage'] + '%';
+            document.getElementById('player1Matches').innerText = data['player_one_match_count'];
+            document.getElementById('player2Matches').innerText = data['player_two_match_count'];
+        }
+
+        setInterval(fetchData, 5000);  // Refresh every 5 seconds
+        fetchData();
+    </script>
+</body>
+</html>
