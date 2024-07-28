@@ -158,7 +158,7 @@
             document.getElementById('player1H2H').innerText = data['player_one_h2h_wins'] + 'W-' + data['player_two_h2h_wins'] + 'L';
             document.getElementById('player2H2H').innerText = data['player_two_h2h_wins'] + 'W-' + data['player_one_h2h_wins'] + 'L';
         }
-
+        // update
         setInterval(fetchData, 5000);  // Refresh every 5 seconds
         fetchData();
     </script>
