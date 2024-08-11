@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sheared Rectangles with Overlapping Middle Rectangle</title>
+    <style>
+        /* Existing CSS styles */
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1920px;
+            height: 1080px;
+        }
+
+        .rectangle-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .rectangle {
+            position: absolute;
+            background-color: #0080FF; /* Solid color with no transparency */
+            border: 5px solid black; /* Thick border */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px; /* Padding for text inside the rectangle */
+            box-sizing: border-box; /* Ensures padding is included in width */
+            font-family: 'Arial Black', Arial, sans-serif;
+            font-weight: bold;
+            font-size: 36px; /* Increased font size for player and score */
+            color: white; /* Text color */
+            -webkit-text-stroke: 3px black; /* Adjusted black outline */
+        }
+
+        .player-info {
+            background-color: #09ff00; /* Solid color with no transparency */
+            border: 5px solid black; /* Thick border */
+        }
+
+        .player-left {
+            width: 395px; /* Increased width by 5px */
+            height: 57px; /* Increased height by 2px */
+            transform: skew(14deg); /* Skew the element to the right */
+            left: 205px; /* Stick to the left side */
+            top: 10px; /* Position it vertically */
+            justify-content: flex-start; /* Align text to the left */
+        }
+
+        .score-left {
+            width: 80px; /* Kept original width */
+            height: 57px; /* Increased height by 2px */
+            transform: skew(14deg); /* Skew the element to the right */
+            left: 599px; /* Stick to the left side */
+            top: 10px; /* Position it vertically */
+            justify-content: center; /* Center the text */
+        }
+
+        .player-right {
+            width: 395px; /* Increased width by 5px */
+            height: 57px; /* Increased height by 2px */
+            transform: skew(-14deg); /* Skew the element to the left */
+            right: 205px; /* Stick to the right side */
+            top: 10px; /* Position it vertically */
+            justify-content: flex-end; /* Align text to the right */
+        }
+
+        .score-right {
+            width: 80px; /* Kept original width */
+            height: 57px; /* Increased height by 2px */
+            transform: skew(-14deg); /* Skew the element to the left */
+            right: 599px; /* Stick to the right side */
+            top: 10px; /* Position it vertically */
+            justify-content: center; /* Center the text */
+        }
+
+        /* Unskew the text inside skewed elements */
+        .player-left span, .score-left span {
+            transform: skew(-14deg); /* Apply the opposite skew to unshear the text */
+        }
+
+        .player-right span, .score-right span {
+            transform: skew(14deg); /* Apply the opposite skew to unshear the text */
+        }
+
+        .middle-rectangle {
+            width: 320px; /* Increased width by 20px */
+            height: 30px; /* Keeping original height */
+            background-color: #FF8000; /* Solid color with no transparency */
+            border: 5px solid black; /* Thick border */
+            position: absolute;
+            top: 5px; /* Position it vertically */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%);
+            z-index: -1; /* Send it behind the other rectangles */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center the text in the middle rectangle */
+            font-family: 'Arial Black', Arial, sans-serif;
+            font-weight: bold;
+            font-size: 24px; /* Reduced font size back to original */
+            color: black; /* Solid black text color */
+        }
+    </style>
+</head>
+<body>
+    <div class="rectangle-container">
+        <div class="rectangle player-left player-info"><span id="player-one">player one</span></div>
+        <div class="rectangle score-left"><span id="score-one">1</span></div>
+        <div class="middle-rectangle" id="tournament-round">some text</div>
+        <div class="rectangle score-right"><span id="score-two">0</span></div>
+        <div class="rectangle player-right player-info"><span id="player-two">player two</span></div>
+    </div>
+
+    <script>
+        const url = "https://script.google.com/macros/s/AKfycbxKv_t25sx5uxxFkqPkt_jO6sYB6IGoSKp41FwSBYYXqsaWEKyr-5coA68foXgHQ_LETg/exec";
+
+        function fetchAndUpdate() {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('player-one').textContent = data.leftTeam;
+                    document.getElementById('score-one').textContent = data.leftScore;
+                    document.getElementById('player-two').textContent = data.rightTeam;
+                    document.getElementById('score-two').textContent = data.rightScore;
+                    document.getElementById('tournament-round').textContent = data.tournamentRound;
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // Fetch and update every 5 seconds
+        setInterval(fetchAndUpdate, 5000);
+
+        // Initial fetch
+        fetchAndUpdate();
+    </script>
+</body>
+</html>
