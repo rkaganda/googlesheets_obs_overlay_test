@@ -36,44 +36,47 @@
         }
 
         .player-info {
-            background-color: #09ff00; /* Solid color with no transparency */
             border: 5px solid black; /* Thick border */
         }
 
         .player-left {
-            width: 395px; /* Increased width by 5px */
+            width: 509px; /* Increased width by 5px */
             height: 57px; /* Increased height by 2px */
             transform: skew(14deg); /* Skew the element to the right */
             left: 205px; /* Stick to the left side */
             top: 10px; /* Position it vertically */
             justify-content: flex-start; /* Align text to the left */
+            background: linear-gradient(to right, #00ffff, #008b8b); /* Gradient from lighter to darker teal */
         }
 
         .score-left {
             width: 80px; /* Kept original width */
             height: 57px; /* Increased height by 2px */
             transform: skew(14deg); /* Skew the element to the right */
-            left: 599px; /* Stick to the left side */
+            left: 709px; /* Stick to the left side */
             top: 10px; /* Position it vertically */
             justify-content: center; /* Center the text */
+            background-color: rgb(106, 106, 106); /* Kept original color */
         }
 
         .player-right {
-            width: 395px; /* Increased width by 5px */
+            width: 509px; /* Increased width by 5px */
             height: 57px; /* Increased height by 2px */
             transform: skew(-14deg); /* Skew the element to the left */
             right: 205px; /* Stick to the right side */
             top: 10px; /* Position it vertically */
             justify-content: flex-end; /* Align text to the right */
+            background: linear-gradient(to left, #ff99cc, #8b3a62); /* Gradient from lighter to darker pink */
         }
 
         .score-right {
             width: 80px; /* Kept original width */
             height: 57px; /* Increased height by 2px */
             transform: skew(-14deg); /* Skew the element to the left */
-            right: 599px; /* Stick to the right side */
+            right: 709px; /* Stick to the right side */
             top: 10px; /* Position it vertically */
             justify-content: center; /* Center the text */
+            background-color: rgb(106, 106, 106); /* Kept original color */
         }
 
         /* Unskew the text inside skewed elements */
@@ -88,7 +91,7 @@
         .middle-rectangle {
             width: 320px; /* Increased width by 20px */
             height: 30px; /* Keeping original height */
-            background-color: #FF8000; /* Solid color with no transparency */
+            background-color: rgb(186, 231, 85); /* Kept original color */
             border: 5px solid black; /* Thick border */
             position: absolute;
             top: 5px; /* Position it vertically */
