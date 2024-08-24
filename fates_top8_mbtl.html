@@ -13,7 +13,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: url('FOFATES BANNER bg.png');
+            background-color: black;
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
@@ -48,7 +48,7 @@
             color: white;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
             font-weight: bold;
-            font-size: 1.2em;
+            font-size: 1.8em;
         }
 
         .matchup {
@@ -65,7 +65,7 @@
         .player-container {
             display: flex;
             justify-content: center;
-            width: 200px;
+            width: 450px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -76,10 +76,12 @@
 
         .winner {
             background-color: #f9f9f9;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            font-size: 1.7em;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
         }
 
         .loser {
+            font-size: 1.5em;
             background-color: #a9a9a9;
         }
 
@@ -122,16 +124,10 @@
     </div>
     <script>
         const API_TOKEN = "1a29688c2b18f69ccc43ffae667c18c2";
-        const TOURNAMENT_SLUG = "festival-of-fates-slice-of-lifebars";
-        const EVENT_SLUG = "tournament/festival-of-fates-slice-of-lifebars/event/melty-blood-type-lumina";
+        const TOURNAMENT_SLUG = "game-lab-mega-monthly-14-x-weebfest-x-sunday-funday";
+        const EVENT_SLUG = "tournament/game-lab-mega-monthly-14-x-weebfest-x-sunday-funday/event/melty-blood-type-lumina";
 
-        //const TOURNAMENT_SLUG = "game-lab-smash-146";
-        //const EVENT_SLUG = "tournament/game-lab-smash-146/event/game-lab-smash-ultimate-146-singles";
         const perPage = 20;
-
-        /*
-        tournament/game-lab-smash-146/event/game-lab-smash-ultimate-146-singles
-        */
 
         async function fetchEventID(tournamentSlug, eventSlug) {
             const query = `
@@ -303,6 +299,14 @@
             const losersQuarterFinalsDiv = document.getElementById('losers-quarter-finals');
             const losersFinalsDiv = document.getElementById('losers-finals');
 
+            // Clear only the matchups, keeping the round titles intact
+            winnersSemiFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
+            winnersFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
+            grandFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
+            losersSemiFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
+            losersQuarterFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
+            losersFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
+
             // Filter and display only top 8 matches
             const top8Matchups = filterTop8Matches(matchups);
 
@@ -384,7 +388,11 @@
             }
         }
 
+        // Load brackets initially
         loadBrackets();
+
+        // Set interval to refresh the brackets every 10 seconds
+        setInterval(loadBrackets, 10000);
     </script>
 </body>
 </html>
