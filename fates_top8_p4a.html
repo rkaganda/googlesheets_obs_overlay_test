@@ -99,24 +99,24 @@
     <div class="bracket-container">
         <div class="bracket winners" id="winners-bracket">
             <div class="round" id="winners-semi-finals">
-                <div class="round-title">Winners Semifinals</div>
+                <div class="round-title">Winners Semi-Final</div>
             </div>
             <div class="round" id="winners-finals">
-                <div class="round-title">Winners Finals</div>
+                <div class="round-title">Winners Final</div>
             </div>
             <div class="round" id="grand-finals">
-                <div class="round-title">Grand Finals</div>
+                <div class="round-title">Grand Final</div>
             </div>
         </div>
         <div class="bracket losers" id="losers-bracket">
             <div class="round" id="losers-quarter-finals">
-                <div class="round-title">Losers Quarterfinals</div>
+                <div class="round-title">Losers Quarter-Final</div>
             </div>
             <div class="round" id="losers-semi-finals">
-                <div class="round-title">Losers Semifinals</div>
+                <div class="round-title">Losers Semi-Final</div>
             </div>
             <div class="round" id="losers-finals">
-                <div class="round-title">Losers Finals</div>
+                <div class="round-title">Losers Final</div>
             </div>
         </div>
     </div>
@@ -124,6 +124,9 @@
         const API_TOKEN = "1a29688c2b18f69ccc43ffae667c18c2";
         const TOURNAMENT_SLUG = "festival-of-fates-slice-of-lifebars";
         const EVENT_SLUG = "tournament/festival-of-fates-slice-of-lifebars/event/persona-4-arena-ultimax";
+
+        //const TOURNAMENT_SLUG = "game-lab-smash-146";
+        //const EVENT_SLUG = "tournament/game-lab-smash-146/event/game-lab-smash-ultimate-146-singles";
         const perPage = 20;
 
         /*
@@ -171,6 +174,7 @@
                             winnerId
                             round
                             lPlacement
+                            fullRoundText
                             slots(includeByes: false) {
                                 entrant {
                                     id
@@ -275,17 +279,17 @@
 
         function getRoundName(round, maxRound, minRound) {
             if (round === maxRound) {
-                return "Grand Finals";
+                return "Grand Final";
             } else if (round === maxRound - 1) {
-                return "Winners Finals";
+                return "Winners Final";
             } else if (round === maxRound - 2) {
-                return "Winners Semifinals";
+                return "Winners Semi-Final";
             } else if (round === minRound) {
-                return "Losers Finals";
+                return "Losers Final";
             } else if (round === minRound + 1) {
-                return "Losers Semifinals";
+                return "Losers Semi-Final";
             } else if (round === minRound + 2) {
-                return "Losers Quarterfinals";
+                return "Losers Quarter-Final";
             }
             return false;
         }
@@ -308,11 +312,10 @@
             console.log(`Min round (Top 8): ${minRound}, Max round (Top 8): ${maxRound}`);
 
             top8Matchups.forEach((matchup, index) => {                     
-                const roundName = getRoundName(matchup.round, maxRound, minRound);
-                console.log(`Match ${index + 1}`, matchup);  
+                const roundName = matchup.fullRoundText;  // Use fullRoundText directly for roundName
+                console.log(`Match ${index + 1} fullRoundText:${roundName}`, matchup);  
 
                 if (roundName) {
-
                     const player1 = matchup.slots[0].entrant ? matchup.slots[0].entrant.name : "TBD";
                     const player2 = matchup.slots[1].entrant ? matchup.slots[1].entrant.name : "TBD";
                     const score1 = matchup.slots[0].standing && matchup.slots[0].standing.stats.score ? matchup.slots[0].standing.stats.score.value : 0;
@@ -340,23 +343,24 @@
                         </div>
                     `;
 
+                    // Assign matchup HTML to the appropriate round div based on roundName
                     switch (roundName) {
-                        case "Winners Semifinals":
+                        case "Winners Semi-Final":
                             winnersSemiFinalsDiv.innerHTML += matchupHtml;
                             break;
-                        case "Winners Finals":
+                        case "Winners Final":
                             winnersFinalsDiv.innerHTML += matchupHtml;
                             break;
-                        case "Grand Finals":
+                        case "Grand Final":
                             grandFinalsDiv.innerHTML += matchupHtml;
                             break;
-                        case "Losers Quarterfinals":
+                        case "Losers Quarter-Final":
                             losersQuarterFinalsDiv.innerHTML += matchupHtml;
                             break;
-                        case "Losers Semifinals":
+                        case "Losers Semi-Final":
                             losersSemiFinalsDiv.innerHTML += matchupHtml;
                             break;
-                        case "Losers Finals":
+                        case "Losers Final":
                             losersFinalsDiv.innerHTML += matchupHtml;
                             break;
                         default:
