@@ -252,7 +252,7 @@
 
             top8Matchups.forEach(matchup => {
                 const round = matchup.round;
-                const phaseGroupIdentifier = parseInt(matchup.phaseGroup.displayIdentifier, 10);
+                const phaseGroupIdentifier = parseInt(matchup.phaseGroup.phase.phaseOrder, 10);
                 if (round < minRound) minRound = round;
                 if (round > maxRound) maxRound = round;
                 if (phaseGroupIdentifier > maxPhaseGroup) maxPhaseGroup = phaseGroupIdentifier;
