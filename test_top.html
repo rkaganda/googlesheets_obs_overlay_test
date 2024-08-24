@@ -171,6 +171,12 @@
                             round
                             lPlacement
                             fullRoundText
+                            phaseGroup {
+                                displayIdentifier
+                                phase {
+                                    phaseOrder
+                                }
+                            }
                             slots(includeByes: false) {
                                 entrant {
                                     id
@@ -227,19 +233,6 @@
             return allMatchups;
         }
 
-        function determineMinMaxRounds(matchups) {
-            let minRound = Infinity;
-            let maxRound = -Infinity;
-
-            matchups.forEach(matchup => {
-                const round = matchup.round;
-                if (round < minRound) minRound = round;
-                if (round > maxRound) maxRound = round;
-            });
-
-            return { minRound, maxRound };
-        }
-
         function isTop8Match(matchup, maxRound, minRound) {
             const round = matchup.round;
             const lPlacement = matchup.lPlacement;
@@ -252,25 +245,32 @@
             return false;
         }
 
-        function filterTop8Matches(matchups) {
-            // Determine min and max rounds of all matchups first
-            const { minRound, maxRound } = determineMinMaxRounds(matchups);
-
-            // Filter to only top 8 matches
-            return matchups.filter(matchup => isTop8Match(matchup, maxRound, minRound));
-        }
-
         function determineMinMaxRoundsFromTop8(top8Matchups) {
             let minRound = Infinity;
             let maxRound = -Infinity;
+            let maxPhaseGroup = -Infinity;
 
             top8Matchups.forEach(matchup => {
                 const round = matchup.round;
+                const phaseGroupIdentifier = parseInt(matchup.phaseGroup.displayIdentifier, 10);
                 if (round < minRound) minRound = round;
                 if (round > maxRound) maxRound = round;
+                if (phaseGroupIdentifier > maxPhaseGroup) maxPhaseGroup = phaseGroupIdentifier;
             });
 
-            return { minRound, maxRound };
+            return { minRound, maxRound, maxPhaseGroup };
+        }
+
+        function filterTop8Matches(matchups) {
+            // Determine min and max rounds and max phase group identifier from all matchups
+            const { minRound, maxRound, maxPhaseGroup } = determineMinMaxRoundsFromTop8(matchups);
+
+            // Filter to only top 8 matches and with the largest phase group identifier
+            return matchups.filter(matchup => {
+                const phaseGroupIdentifier = parseInt(matchup.phaseGroup.phase.phaseOrder, 10);
+                console.log(`phaseOrder:${matchup.phaseGroup.phase.phaseOrder}`, matchup); 
+                return isTop8Match(matchup, maxRound, minRound) && phaseGroupIdentifier === maxPhaseGroup;
+            });
         }
 
         function getRoundName(round, maxRound, minRound) {
@@ -317,7 +317,7 @@
 
             top8Matchups.forEach((matchup, index) => {                     
                 const roundName = matchup.fullRoundText;  // Use fullRoundText directly for roundName
-                console.log(`Match ${index + 1} fullRoundText:${roundName}`, matchup);  
+                console.log(`Match ${index + 1} fullRoundText:${roundName} phaseGroup:${matchup.phaseGroup.displayIdentifier}`, matchup);  
 
                 if (roundName) {
                     const player1 = matchup.slots[0].entrant ? matchup.slots[0].entrant.name : "TBD";
