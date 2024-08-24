@@ -122,11 +122,8 @@
     </div>
     <script>
         const API_TOKEN = "1a29688c2b18f69ccc43ffae667c18c2";
-        //const TOURNAMENT_SLUG = "festival-of-fates-slice-of-lifebars";
-        //const EVENT_SLUG = "tournament/festival-of-fates-slice-of-lifebars/event/under-night-in-birth-ii-sys-celes";
-
-        const TOURNAMENT_SLUG = "game-lab-smash-146";
-        const EVENT_SLUG = "tournament/game-lab-smash-146/event/game-lab-smash-ultimate-146-singles";
+        const TOURNAMENT_SLUG = "festival-of-fates-slice-of-lifebars";
+        const EVENT_SLUG = "tournament/festival-of-fates-slice-of-lifebars/event/melty-blood-type-lumina";
         const perPage = 20;
 
         /*
@@ -243,6 +240,39 @@
             return { minRound, maxRound };
         }
 
+        function isTop8Match(matchup, maxRound, minRound) {
+            const round = matchup.round;
+            const lPlacement = matchup.lPlacement;
+
+            // Check for losers bracket (lPlacement <= 7)
+            if (lPlacement && lPlacement <= 7) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function filterTop8Matches(matchups) {
+            // Determine min and max rounds of all matchups first
+            const { minRound, maxRound } = determineMinMaxRounds(matchups);
+
+            // Filter to only top 8 matches
+            return matchups.filter(matchup => isTop8Match(matchup, maxRound, minRound));
+        }
+
+        function determineMinMaxRoundsFromTop8(top8Matchups) {
+            let minRound = Infinity;
+            let maxRound = -Infinity;
+
+            top8Matchups.forEach(matchup => {
+                const round = matchup.round;
+                if (round < minRound) minRound = round;
+                if (round > maxRound) maxRound = round;
+            });
+
+            return { minRound, maxRound };
+        }
+
         function getRoundName(round, maxRound, minRound) {
             if (round === maxRound) {
                 return "Grand Finals";
@@ -260,18 +290,6 @@
             return false;
         }
 
-        function isTop8Match(matchup, maxRound, minRound) {
-            const round = matchup.round;
-            const lPlacement = matchup.lPlacement;
-
-            // Check for losers bracket (lPlacement <= 7)
-            if (lPlacement && lPlacement <= 7) {
-                return true;
-            }
-
-            return false;
-        }
-
         function displayBrackets(matchups) {
             const winnersSemiFinalsDiv = document.getElementById('winners-semi-finals');
             const winnersFinalsDiv = document.getElementById('winners-finals');
@@ -281,68 +299,68 @@
             const losersQuarterFinalsDiv = document.getElementById('losers-quarter-finals');
             const losersFinalsDiv = document.getElementById('losers-finals');
 
-            // Determine min and max rounds
-            const { minRound, maxRound } = determineMinMaxRounds(matchups);
+            // Filter and display only top 8 matches
+            const top8Matchups = filterTop8Matches(matchups);
 
-            console.log(`Min round: ${minRound}, Max round: ${maxRound}`);
+            // Determine min and max rounds from only top 8 matches
+            const { minRound, maxRound } = determineMinMaxRoundsFromTop8(top8Matchups);
 
-            // Filter and display only matches that are top 8
-            matchups.forEach((matchup, index) => {                     
-                if (isTop8Match(matchup, maxRound, minRound)) {
-                    const roundName = getRoundName(matchup.round, maxRound, minRound);
-                    console.log(`Match ${index + 1}`, matchup);  
+            console.log(`Min round (Top 8): ${minRound}, Max round (Top 8): ${maxRound}`);
 
-                    if (roundName) {
+            top8Matchups.forEach((matchup, index) => {                     
+                const roundName = getRoundName(matchup.round, maxRound, minRound);
+                console.log(`Match ${index + 1}`, matchup);  
 
-                        const player1 = matchup.slots[0].entrant ? matchup.slots[0].entrant.name : "TBD";
-                        const player2 = matchup.slots[1].entrant ? matchup.slots[1].entrant.name : "TBD";
-                        const score1 = matchup.slots[0].standing && matchup.slots[0].standing.stats.score ? matchup.slots[0].standing.stats.score.value : 0;
-                        const score2 = matchup.slots[1].standing && matchup.slots[1].standing.stats.score ? matchup.slots[1].standing.stats.score.value : 0;
+                if (roundName) {
 
-                        let player1Class = 'loser';
-                        let player2Class = 'loser';
+                    const player1 = matchup.slots[0].entrant ? matchup.slots[0].entrant.name : "TBD";
+                    const player2 = matchup.slots[1].entrant ? matchup.slots[1].entrant.name : "TBD";
+                    const score1 = matchup.slots[0].standing && matchup.slots[0].standing.stats.score ? matchup.slots[0].standing.stats.score.value : 0;
+                    const score2 = matchup.slots[1].standing && matchup.slots[1].standing.stats.score ? matchup.slots[1].standing.stats.score.value : 0;
 
-                        if (score1 > score2) {
-                            player1Class = 'winner';
-                        } else if (score2 > score1) {
-                            player2Class = 'winner';
-                        }
+                    let player1Class = 'loser';
+                    let player2Class = 'loser';
 
-                        const matchupHtml = `
-                            <div class="matchup">
-                                <div class="player-container ${player1Class}">
-                                    <div class="player">${player1}</div>
-                                    <div class="score">${score1}</div>
-                                </div>
-                                <div class="player-container ${player2Class}">
-                                    <div class="player">${player2}</div>
-                                    <div class="score">${score2}</div>
-                                </div>
+                    if (score1 > score2) {
+                        player1Class = 'winner';
+                    } else if (score2 > score1) {
+                        player2Class = 'winner';
+                    }
+
+                    const matchupHtml = `
+                        <div class="matchup">
+                            <div class="player-container ${player1Class}">
+                                <div class="player">${player1}</div>
+                                <div class="score">${score1}</div>
                             </div>
-                        `;
+                            <div class="player-container ${player2Class}">
+                                <div class="player">${player2}</div>
+                                <div class="score">${score2}</div>
+                            </div>
+                        </div>
+                    `;
 
-                        switch (roundName) {
-                            case "Winners Semifinals":
-                                winnersSemiFinalsDiv.innerHTML += matchupHtml;
-                                break;
-                            case "Winners Finals":
-                                winnersFinalsDiv.innerHTML += matchupHtml;
-                                break;
-                            case "Grand Finals":
-                                grandFinalsDiv.innerHTML += matchupHtml;
-                                break;
-                            case "Losers Quarterfinals":
-                                losersQuarterFinalsDiv.innerHTML += matchupHtml;
-                                break;
-                            case "Losers Semifinals":
-                                losersSemiFinalsDiv.innerHTML += matchupHtml;
-                                break;
-                            case "Losers Finals":
-                                losersFinalsDiv.innerHTML += matchupHtml;
-                                break;
-                            default:
-                                break;
-                        }
+                    switch (roundName) {
+                        case "Winners Semifinals":
+                            winnersSemiFinalsDiv.innerHTML += matchupHtml;
+                            break;
+                        case "Winners Finals":
+                            winnersFinalsDiv.innerHTML += matchupHtml;
+                            break;
+                        case "Grand Finals":
+                            grandFinalsDiv.innerHTML += matchupHtml;
+                            break;
+                        case "Losers Quarterfinals":
+                            losersQuarterFinalsDiv.innerHTML += matchupHtml;
+                            break;
+                        case "Losers Semifinals":
+                            losersSemiFinalsDiv.innerHTML += matchupHtml;
+                            break;
+                        case "Losers Finals":
+                            losersFinalsDiv.innerHTML += matchupHtml;
+                            break;
+                        default:
+                            break;
                     }
                 }
             });

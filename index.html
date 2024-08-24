@@ -3,116 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBS Overlay</title>
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: black;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start; /* Start at the top */
-            text-align: center;
-        }
-        .container {
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
-        }
-        .header {
-            font-size: 32px;
-            font-weight: bold;
-            color: red;
-            margin-top: 10px;
-        }
-        .sub-header {
-            font-size: 84px; /* Increased size to three times original */
-            margin-bottom: 20px;
-            font-weight: bold; /* Bold font for thicker text */
-            padding-top: 20vh; /* Padding to position 20% down the page */
-        }
-        .players {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            width: 100%;
-        }
-        .player {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 45%;
-        }
-        .player-name {
-            background-color: red;
-            color: black;
-            padding: 5px 10px;
-            width: auto;
-            min-width: 200px; /* Ensuring enough space for longer names */
-            max-width: 100%; /* Adjust to fit within the container */
-            box-sizing: border-box;
-            font-size: 24px; /* Increased font size */
-        }
-        .wins {
-            font-size: 24px;
-            margin-top: 10px;
-        }
-        .logo {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .vs {
-            font-size: 32px;
-            font-weight: bold;
-            color: white;
-            margin: 0 20px; /* Added padding */
-        }
-    </style>
+    <title>Fates Tournament Links</title>
 </head>
 <body>
-    <div class="logo">PlusFrames GG</div>
-    <div class="header">ARMOR BREAK CIRCUIT - TEKKEN 8</div>
-    <div class="sub-header">HEAD TO HEAD</div>
-    <div class="container">
-        <div class="players">
-            <div class="player" id="player1">
-                <div class="player-name" id="player1Name">Player 1</div>
-                <div class="wins" id="player1Wins">0</div>
-            </div>
-            <div class="vs">vs</div>
-            <div class="player" id="player2">
-                <div class="player-name" id="player2Name">Player 2</div>
-                <div class="wins" id="player2Wins">0</div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        async function fetchData() {
-            const response = await fetch('https://script.google.com/macros/s/AKfycbyKUxUqX8jBmKdM87hH72H0wfWKuSicieedIYstxKfDDHod-3Oi5ddZUszpi-b21OWTlA/exec');
-            const data = await response.json();
-            const rows = data;
-
-            const player1Name = rows[0][1];
-            const player2Name = rows[0][2];
-            const player1Wins = rows[1][3];
-            const player2Wins = rows[1][4];
-
-            document.getElementById('player1Name').innerText = player1Name;
-            document.getElementById('player2Name').innerText = player2Name;
-            document.getElementById('player1Wins').innerText = player1Wins;
-            document.getElementById('player2Wins').innerText = player2Wins;
-        }
-
-        setInterval(fetchData, 5000);  // Refresh every 5 seconds
-        fetchData();
-    </script>
+    <h1>Fates Tournament Links</h1>
+    <ul>
+        <li><a href="headtohead.html">Head to Head</a></li>
+        <li><a href="headtohead_two.html">Head to Head Two</a></li>
+        <li><a href="fates_top8_blazblue.html">Fates Top 8 BlazBlue</a></li>
+        <li><a href="fates_top8_gbvs.html">Fates Top 8 GBVS</a></li>
+        <li><a href="fates_top8_mbtl.html">Fates Top 8 MBTL</a></li>
+        <li><a href="fates_top8_p4a.html">Fates Top 8 P4A</a></li>
+        <li><a href="fates_top8_skullgirls.html">Fates Top 8 Skullgirls</a></li>
+        <li><a href="fates_top8_strive.html">Fates Top 8 Strive</a></li>
+        <li><a href="fates_top8_uni2.html">Fates Top 8 UNI2</a></li>
+        <li><a href="fates_scoreboard_overlay.html">Fates Scoreboard Overlay</a></li>
+    </ul>
 </body>
 </html>
