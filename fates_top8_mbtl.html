@@ -269,7 +269,8 @@
             return matchups.filter(matchup => {
                 const phaseGroupIdentifier = parseInt(matchup.phaseGroup.phase.phaseOrder, 10);
                 console.log(`phaseOrder:${matchup.phaseGroup.phase.phaseOrder}`, matchup); 
-                return isTop8Match(matchup, maxRound, minRound) && phaseGroupIdentifier === maxPhaseGroup;
+                // return isTop8Match(matchup, maxRound, minRound) && phaseGroupIdentifier === maxPhaseGroup;
+                return isTop8Match(matchup, maxRound, minRound) && true;
             });
         }
 
