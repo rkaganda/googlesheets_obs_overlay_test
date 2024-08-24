@@ -323,8 +323,8 @@
                 if (roundName) {
                     const player1 = matchup.slots[0].entrant ? matchup.slots[0].entrant.name : "TBD";
                     const player2 = matchup.slots[1].entrant ? matchup.slots[1].entrant.name : "TBD";
-                    const score1 = matchup.slots[0].standing && matchup.slots[0].standing.stats.score ? matchup.slots[0].standing.stats.score.value : 0;
-                    const score2 = matchup.slots[1].standing && matchup.slots[1].standing.stats.score ? matchup.slots[1].standing.stats.score.value : 0;
+                    const score1 = (matchup.slots[0].standing && matchup.slots[0].standing.stats.score && matchup.slots[0].standing.stats.score.value != null) ? matchup.slots[0].standing.stats.score.value : 0;
+const score2 = (matchup.slots[1].standing && matchup.slots[1].standing.stats.score && matchup.slots[1].standing.stats.score.value != null) ? matchup.slots[1].standing.stats.score.value : 0;
 
                     let player1Class = 'loser';
                     let player2Class = 'loser';
