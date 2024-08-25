@@ -111,6 +111,9 @@
             </div>
         </div>
         <div class="bracket losers" id="losers-bracket">
+            <div class="round" id="losers-round-one">
+                <div class="round-title">Losers Round 1</div>
+            </div>
             <div class="round" id="losers-quarter-finals">
                 <div class="round-title">Losers Quarter-Final</div>
             </div>
@@ -295,6 +298,7 @@
             const winnersFinalsDiv = document.getElementById('winners-finals');
             const grandFinalsDiv = document.getElementById('grand-finals');
             
+            const losersRoundOneDiv = document.getElementById('losers-round-one');
             const losersSemiFinalsDiv = document.getElementById('losers-semi-finals');
             const losersQuarterFinalsDiv = document.getElementById('losers-quarter-finals');
             const losersFinalsDiv = document.getElementById('losers-finals');
@@ -303,6 +307,7 @@
             winnersSemiFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
             winnersFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
             grandFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
+            losersRoundOneDiv.querySelectorAll('.matchup').forEach(element => element.remove());
             losersSemiFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
             losersQuarterFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
             losersFinalsDiv.querySelectorAll('.matchup').forEach(element => element.remove());
@@ -323,7 +328,7 @@
                     const player1 = matchup.slots[0].entrant ? matchup.slots[0].entrant.name : "TBD";
                     const player2 = matchup.slots[1].entrant ? matchup.slots[1].entrant.name : "TBD";
                     const score1 = (matchup.slots[0].standing && matchup.slots[0].standing.stats.score && matchup.slots[0].standing.stats.score.value != null) ? matchup.slots[0].standing.stats.score.value : 0;
-const score2 = (matchup.slots[1].standing && matchup.slots[1].standing.stats.score && matchup.slots[1].standing.stats.score.value != null) ? matchup.slots[1].standing.stats.score.value : 0;
+                    const score2 = (matchup.slots[1].standing && matchup.slots[1].standing.stats.score && matchup.slots[1].standing.stats.score.value != null) ? matchup.slots[1].standing.stats.score.value : 0;
 
                     let player1Class = 'loser';
                     let player2Class = 'loser';
@@ -357,6 +362,9 @@ const score2 = (matchup.slots[1].standing && matchup.slots[1].standing.stats.sco
                             break;
                         case "Grand Final":
                             grandFinalsDiv.innerHTML += matchupHtml;
+                            break;
+                        case "Losers Round 1":
+                            losersRoundOneDiv.innerHTML += matchupHtml;
                             break;
                         case "Losers Quarter-Final":
                             losersQuarterFinalsDiv.innerHTML += matchupHtml;
