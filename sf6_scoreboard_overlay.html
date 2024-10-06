@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Scoreboard</title>
+    <style>
+        /* Existing CSS styles */
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1920px;
+            height: 1080px;
+        }
+
+        .rectangle-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .rectangle {
+            position: absolute;
+            background-color: #0080FF; /* Solid color with no transparency */
+            border: 5px solid black; /* Thick border */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px; /* Padding for text inside the rectangle */
+            box-sizing: border-box; /* Ensures padding is included in width */
+            font-family: 'Arial Black', Arial, sans-serif;
+            font-weight: bold;
+            font-size: 36px; /* Increased font size for player and score */
+            color: white; /* Text color */
+            -webkit-text-stroke: 3px black; /* Adjusted black outline */
+        }
+
+        .player-info {
+            background-color: #09ff00; /* Solid color with no transparency */
+            border: 5px solid black; /* Thick border */
+        }
+
+        .player-left {
+            width: 409px; /* Increased width by 5px */
+            height: 48px; 
+            transform: skew(14deg); /* Skew the element to the right */
+            left: 250px; /* Stick to the left side */
+            top: 10px; /* Position it vertically */
+            justify-content: flex-start; /* Align text to the left */
+            background: linear-gradient(to right, #ec3d3d, #a35151); /* Lighter to slightly less dark teal */
+            font-size: 24px; /* Increased font size for player and score */
+            color: white; /* Text color */
+            -webkit-text-stroke: 2px black; /* Adjusted black outline */
+            z-index: -1;
+        }
+
+        .score-left {
+            width: 80px; /* Kept original width */
+            height: 48px; /* Increased height by 2px */
+            transform: skew(14deg); /* Skew the element to the right */
+            left: 654px; /* Stick to the left side */
+            top: 10px; /* Position it vertically */
+            justify-content: center; /* Center the text */
+            background-color: rgb(106, 106, 106); /* Updated to teal color */
+        }
+
+        .player-right {
+            width: 409px; /* Increased width by 5px */
+            height: 48px; /* Increased height by 2px */
+            transform: skew(-14deg); /* Skew the element to the left */
+            right: 250px; /* Stick to the right side */
+            top: 10px; /* Position it vertically */
+            justify-content: flex-end; /* Align text to the right */
+            background: linear-gradient(to left, #396dfb, #371fd4); /* Lighter to slightly less dark pink */
+            font-size: 24px; /* Increased font size for player and score */
+            color: white; /* Text color */
+            -webkit-text-stroke: 2px black; /* Adjusted black outline */
+            z-index: -1;
+        }
+
+        .score-right {
+            width: 80px; /* Kept original width */
+            height: 48px; /* Increased height by 2px */
+            transform: skew(-14deg); /* Skew the element to the left */
+            right: 654px; /* Stick to the right side */
+            top: 10px; /* Position it vertically */
+            justify-content: center; /* Center the text */
+            background-color: rgb(106, 106, 106); /* Updated to teal color */
+        }
+
+        /* Unskew the text inside skewed elements */
+        .player-left span, .score-left span {
+            transform: skew(-14deg); /* Apply the opposite skew to unshear the text */
+        }
+
+        .player-right span, .score-right span {
+            transform: skew(14deg); /* Apply the opposite skew to unshear the text */
+        }
+
+        .middle-rectangle {
+            width: 320px; /* Increased width by 20px */
+            height: 30px; /* Keeping original height */
+            background-color: rgb(153, 153, 153); /* Updated to teal color */
+            border: 5px solid black; /* Thick border */
+            position: absolute;
+            top: 5px; /* Position it vertically */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%);
+            z-index: -1; /* Send it behind the other rectangles */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center the text in the middle rectangle */
+            font-family: 'Arial Black', Arial, sans-serif;
+            font-weight: bold;
+            font-size: 24px; /* Reduced font size back to original */
+            color: black; /* Solid black text color */
+        }
+    </style>
+</head>
+<body>
+    <div class="rectangle-container">
+        <div class="rectangle player-left player-info"><span id="player-one">player one</span></div>
+        <div class="rectangle score-left"><span id="score-one">1</span></div>
+        <div class="middle-rectangle" id="tournament-round">some text</div>
+        <div class="rectangle score-right"><span id="score-two">0</span></div>
+        <div class="rectangle player-right player-info"><span id="player-two">player two</span></div>
+    </div>
+
+    <script>
+        const url = "https://script.google.com/macros/s/AKfycbwXmx7kdtIaafXjbGSpN22v41NXe2ebh1nqohsMibfpSvi3AwJ6zNSMGSRVq-nkJKji/exec";
+
+        function fetchAndUpdate() {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('player-one').textContent = data['player_one_name'];
+                    document.getElementById('score-one').textContent = data['player_one_score'];
+                    document.getElementById('player-two').textContent = data['player_two_name'];
+                    document.getElementById('score-two').textContent = data['player_two_score'];
+                    document.getElementById('tournament-round').textContent = data['tournament_round'];
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        // Fetch and update every 5 seconds
+        setInterval(fetchAndUpdate, 5000);
+
+        // Initial fetch
+        fetchAndUpdate();
+    </script>
+</body>
+</html>
