@@ -40,6 +40,11 @@
             border: 5px solid black; /* Thick border */
         }
 
+        .player-tag {
+            color: black; /* Text color */
+            font-weight: 100;
+        }
+
         .player-left {
             width: 409px; /* Increased width by 5px */
             height: 48px; 
@@ -50,7 +55,7 @@
             background: linear-gradient(to right, #ec3d3d, #a35151); /* Lighter to slightly less dark teal */
             font-size: 24px; /* Increased font size for player and score */
             color: white; /* Text color */
-            -webkit-text-stroke: 2px black; /* Adjusted black outline */
+            -webkit-text-stroke: 0px black; /* Adjusted black outline */
             z-index: -1;
         }
 
@@ -74,7 +79,7 @@
             background: linear-gradient(to left, #396dfb, #371fd4); /* Lighter to slightly less dark pink */
             font-size: 24px; /* Increased font size for player and score */
             color: white; /* Text color */
-            -webkit-text-stroke: 2px black; /* Adjusted black outline */
+            -webkit-text-stroke: 0px black; /* Adjusted black outline */
             z-index: -1;
         }
 
@@ -101,9 +106,9 @@
             width: 320px; /* Increased width by 20px */
             height: 30px; /* Keeping original height */
             background-color: rgb(153, 153, 153); /* Updated to teal color */
-            border: 5px solid black; /* Thick border */
+            border: 4px solid black; 
             position: absolute;
-            top: 5px; /* Position it vertically */
+            top: 15px; /* Position it vertically */
             left: 50%; /* Center horizontally */
             transform: translateX(-50%);
             z-index: -1; /* Send it behind the other rectangles */
@@ -119,12 +124,13 @@
 </head>
 <body>
     <div class="rectangle-container">
-        <div class="rectangle player-left player-info"><span id="player-one">player one</span></div>
+        <div class="rectangle player-left player-info"><span class="player-tag" id="player-one-tag">tag</span><span id="player-one">player one</span></div>
         <div class="rectangle score-left"><span id="score-one">1</span></div>
         <div class="middle-rectangle" id="tournament-round">some text</div>
         <div class="rectangle score-right"><span id="score-two">0</span></div>
-        <div class="rectangle player-right player-info"><span id="player-two">player two</span></div>
+        <div class="rectangle player-right player-info"><span class="player-tag"  id="player-two-tag">tag</span><span id="player-two">player two</span></div>
     </div>
+    
 
     <script>
         const url = "https://script.google.com/macros/s/AKfycbwXmx7kdtIaafXjbGSpN22v41NXe2ebh1nqohsMibfpSvi3AwJ6zNSMGSRVq-nkJKji/exec";
@@ -133,8 +139,10 @@
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
+                    document.getElementById('player-one-tag').textContent = data['player_one_tag'];
                     document.getElementById('player-one').textContent = data['player_one_name'];
                     document.getElementById('score-one').textContent = data['player_one_score'];
+                    document.getElementById('player-two-tag').textContent = data['player_two_tag'];
                     document.getElementById('player-two').textContent = data['player_two_name'];
                     document.getElementById('score-two').textContent = data['player_two_score'];
                     document.getElementById('tournament-round').textContent = data['tournament_round'];
