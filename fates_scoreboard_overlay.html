@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sheared Rectangles with Overlapping Middle Rectangle</title>
+    <title>Fates Scoreboard</title>
     <style>
         /* Existing CSS styles */
         body {
@@ -125,17 +125,17 @@
     </div>
 
     <script>
-        const url = "https://script.google.com/macros/s/AKfycbzCiANp1VVicAuHr-7-MkEyfHajkRTsUxot2mmvqm1jXbn-ZffqDwhfx5RSJk8vKeB-jw/exec";
+        const url = "https://script.google.com/macros/s/AKfycbwXmx7kdtIaafXjbGSpN22v41NXe2ebh1nqohsMibfpSvi3AwJ6zNSMGSRVq-nkJKji/exec";
 
         function fetchAndUpdate() {
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('player-one').textContent = data.leftTeam;
-                    document.getElementById('score-one').textContent = data.leftScore;
-                    document.getElementById('player-two').textContent = data.rightTeam;
-                    document.getElementById('score-two').textContent = data.rightScore;
-                    document.getElementById('tournament-round').textContent = data.tournamentRound;
+                    document.getElementById('player-one').textContent = data['player_one_name'];
+                    document.getElementById('score-one').textContent = data['player_one_score'];
+                    document.getElementById('player-two').textContent = data['player_two_name'];
+                    document.getElementById('score-two').textContent = data['player_two_score'];
+                    document.getElementById('tournament-round').textContent = data['tournament_round'];
                 })
                 .catch(error => console.error('Error fetching data:', error));
         }
